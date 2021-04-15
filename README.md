@@ -1,2 +1,2 @@
-# ner4code
-Repository for expriments and corpora for NER for code repositories and readme files
+# ner4soft
+Repository for expriments and corpora for NER for software repositories and readme files
