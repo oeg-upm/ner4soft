@@ -1,0 +1,193 @@
+
+Phase: EntityTypeOrganizationPhase
+Input: Token SpaceToken CompanySuffix Location Job
+Options: control = appelt
+
+
+Macro: COMPANY_LOCATION  
+(
+ {Token.string == "("} 
+  ({SpaceToken})? 
+ {Location}
+ ({SpaceToken})?  
+ {Token.string == ")"} 
+)  
+
+Macro: ACRONYM  
+(
+ (
+ {Token.orth== allCaps, Token.length==1}	
+ {Token.string == "."} 
+  ({SpaceToken.kind=="space"})? 
+ )[1,4]
+) 
+
+
+Macro: ADMITED_END  
+(
+  ({SpaceToken})?
+  ({CompanySuffix} |  (COMPANY_LOCATION) {SpaceToken} {CompanySuffix}  )
+) 
+
+Macro: ADMITED_INIT1  
+(
+ {Token.orth== upperInitial,!Location,!CompanySuffix,!Job,
+ 
+ Token.string != "To", Token.string != "Of", Token.string != "Department", Token.string != "Administration", Token.string != "For", Token.string != "Transferor", Token.string != "Transferee", 
+	Token.string != "From",Token.string != "Manager",Token.string != "Director",Token.length > 2 } | 
+ {Token.orth== mixedCaps,!CompanySuffix,!Job } |
+ {Token.orth== upperInitial,Token.length == 1} {Token.kind ==number} |
+ {Token.orth== allCaps,!Location,!CompanySuffix,!Job,Token.string != "TO", Token.string != "OF", 
+	Token.string != "FROM", Token.string != "MANAGER",Token.string != "DIRECTOR", Token.length > 1 } 
+ 
+)
+
+
+Macro: ADMITED_MIDDLE1  
+(
+
+		{Token.orth== mixedCaps} | 
+		{Token.orth== upperInitial, Token.string != "To", Token.string != "Re", Token.string != "From",Token.string != "Manager",Token.string != "Director"} |
+		{Token.orth== lowerCase, Token.string == "of"} |
+		{Token.string == "."} |
+		{Token.string == ","} | 
+		{Token.string== "&"}	|	
+		{Token.kind == number}|
+		{Token.kind == symbol} |
+		{Token.string == "("} |
+		{Token.string == ")"} |
+		{Token.string == "-"} |
+		(ADMITED_END) |
+		(ACRONYM) |
+		{Location} |
+		{SpaceToken.kind=="space"}
+		
+)
+
+
+
+
+Macro: ADMITED_INIT2  
+(
+	{Token.orth== upperInitial,Token.length == 1} {Token.kind ==number} |
+	{Token.orth== allCaps,!Location,!CompanySuffix,!Job,Token.string != "TO", Token.string != "OF", Token.string != "FROM",Token.string != "RE",Token.string != "NAME", Token.string != "MANAGER",Token.string != "DIRECTOR", Token.length > 1 } 
+	
+)
+
+
+Macro: ADMITED_MIDDLE2  
+(
+
+		{Token.orth== allCaps} | 
+		{Token.orth== upperInitial,Token.length <3} | 
+		{Token.string == "."} |
+		{Token.string == ","} | 
+		{Token.string== "&"}	|
+		{Token.kind == number}|
+		{Token.kind == symbol} |
+		{Token.string == "("} |
+		{Token.string == ")"} |
+		{Token.string == "-"} |
+		(ADMITED_END) |
+		(ACRONYM) |
+		{Location} |
+		{SpaceToken.kind=="space"}
+		
+)
+
+
+
+
+Rule:CompanyPatternExclude1 
+Priority: 50  
+(
+
+	(ADMITED_INIT1)
+	({SpaceToken})	
+	(ADMITED_MIDDLE1)[0,9]
+	{SpaceToken.kind==control}	
+	{Token.string=="Corporations"}
+	{SpaceToken.kind==control}		
+	
+):comp
+
+-->
+{}
+
+Rule:CompanyPatternExclude2 
+Priority: 49  
+(
+
+	(ADMITED_INIT1) | (ADMITED_MIDDLE1)
+	{SpaceToken}	
+	{Token.string=="-"}
+	{SpaceToken}	
+	({Token.string=="Corporations"} | {Token.string=="Corporation"} | {Token.string=="Corporation"} {SpaceToken.kind=="space"} {Token.string=="Services"}{SpaceToken.kind=="space"} {Token.string=="Department"} )
+	  
+	
+	
+):comp
+
+-->
+{}
+
+
+Rule:CompanyPatternExclude3 
+Priority: 48  
+(
+	(ADMITED_INIT1)
+	({SpaceToken})	
+	(ADMITED_MIDDLE1)[0,9]
+	{SpaceToken.kind==control}	
+	({Token.string=="Corporations"} | {Token.string=="Corporation"} | {Token.string=="Corporation"} | {Token.string=="Corporation"} {SpaceToken.kind=="space"} {Token.string=="Services"}{SpaceToken.kind=="space"} {Token.string=="Department"})
+	
+	
+):comp
+
+-->
+{}
+
+
+
+Rule:CompanyPattern11 
+Priority: 20  
+(
+	(ADMITED_INIT1)
+	({SpaceToken})	
+	(ADMITED_MIDDLE1)[0,9]
+	(ADMITED_END)[1,3]
+	
+):comp
+
+-->
+:comp.Organization = {kind="Company" rule = "CompanyPattern11",string = :comp@cleanString}
+
+
+Rule:CompanyPattern12 
+Priority: 20  
+(
+	(ADMITED_INIT2)
+	({SpaceToken})
+	(ADMITED_MIDDLE2)[0,9]
+	(ADMITED_END)[1,3]
+	
+):comp
+
+-->
+:comp.Organization = {kind="Company" rule = "CompanyPattern12",string = :comp@cleanString}
+
+
+Rule:CompanyPattern13 
+Priority: 20  
+(
+
+	({Token.string=="FUNDACIÓN"})
+	({Token.orth==allCaps})[0,4]
+
+	
+):comp
+
+-->
+:comp.Organization = {kind="Company" rule = "CompanyPattern13",string = :comp@cleanString}
+
+

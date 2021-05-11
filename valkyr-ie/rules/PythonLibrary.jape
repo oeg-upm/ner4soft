@@ -1,0 +1,22 @@
+
+Phase: First
+Input: Token PythonPackage
+Options: control = appelt
+
+
+
+Rule:Rule1 
+Priority: 20  
+(
+	{PythonPackage}
+	({Token})[1,2] 
+
+	({Token.kind == "number"}{Token.string=="."})[0,3]
+	{Token.kind == "number"}
+	
+):py
+
+-->
+:py.PythonLibrary = {kind="PythonLibrary" rule = "Rule1",string = :py@cleanString}
+
+

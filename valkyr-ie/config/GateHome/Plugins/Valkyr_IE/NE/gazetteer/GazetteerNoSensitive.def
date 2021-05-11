@@ -1,0 +1,9 @@
+countries.lst:Country:country:es:Location
+countriesFrench.lst:Country:country:es:Location
+countryUK.lst:Country:United Kingdom:es:Location
+countryEEUU.lst:Country:United States:es:Location
+continents.lst:Continent:conti:es:Location
+city.lst:City:city:es:Location
+country-acronyms.lst:Country:Acr:es:Location
+jobs.lst:Job:Job:es:Job
+dinamic.lst:Entity:Entity:es:Organization

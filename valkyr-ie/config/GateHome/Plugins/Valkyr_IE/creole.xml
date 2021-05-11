@@ -1,0 +1,63 @@
+<CREOLE-DIRECTORY>
+  
+  
+  <!--JAR SCAN="true">target/HNERGatePlugin.jar</JAR-->
+  
+	<!-- PROCESSING RESOURCES -->
+
+	
+	
+	
+	
+	
+	<!-- creole.xml for package goldstandard -->
+	<RESOURCE>
+		<CLASS>es.upm.oeg.valkyrie.gate.pr.gs.GoldStandardReader</CLASS>			
+	</RESOURCE>
+	<RESOURCE>
+		<CLASS>es.upm.oeg.valkyrie.gate.pr.gs.GoldStandardWriter</CLASS>			
+	</RESOURCE>
+	<RESOURCE>
+		<CLASS>es.upm.oeg.valkyrie.gate.pr.gs.NERReport</CLASS>			
+	</RESOURCE>
+
+	
+
+	<!-- creole.xml for package utils -->
+	<RESOURCE>
+		<CLASS>es.upm.oeg.valkyrie.gate.pr.util.AnnotationTransformation</CLASS>
+	</RESOURCE>
+	<RESOURCE>
+		<CLASS>es.upm.oeg.valkyrie.gate.pr.util.BIOFormater</CLASS>
+	</RESOURCE>
+	<RESOURCE>
+		<CLASS>es.upm.oeg.valkyrie.gate.pr.util.OrientedGazetteer</CLASS>
+	</RESOURCE>
+	<RESOURCE>
+		<CLASS>es.upm.oeg.valkyrie.gate.pr.util.ExportConLLFormat</CLASS>
+	</RESOURCE>
+	<!--RESOURCE>
+		<CLASS>es.upm.oeg.valkyrie.gate.pr.role.RoleCorreference</CLASS>
+	</RESOURCE-->
+	
+	<RESOURCE>
+		<CLASS>es.upm.oeg.valkyrie.gate.pr.role.RoleIdentifierRCM</CLASS>
+	</RESOURCE>
+	<RESOURCE>
+		<CLASS>es.upm.oeg.valkyrie.gate.pr.role.RoleIdentifierML</CLASS>
+	</RESOURCE>
+	<RESOURCE>
+		<CLASS>es.upm.oeg.valkyrie.gate.pr.role.CoReferenceRoleAnalyzer</CLASS>
+	</RESOURCE>
+	<!--RESOURCE>
+		<CLASS>es.upm.oeg.valkyrie.gate.pr.role.RoleAssociatorML</CLASS>
+	</RESOURCE>
+	<RESOURCE>
+		<CLASS>es.upm.oeg.valkyrie.gate.pr.role.RoleAssociatorRCM</CLASS>
+	</RESOURCE>
+	<RESOURCE>
+		<CLASS>es.upm.oeg.valkyrie.gate.pr.role.RoleSelector</CLASS>
+	</RESOURCE-->
+
+  
+</CREOLE-DIRECTORY>
