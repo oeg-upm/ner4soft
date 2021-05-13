@@ -1,3 +1,4 @@
 software.lst:soft:soft:en:Software
 pythonpackages.lst:soft:soft:en:PythonPackage
 programmingLanguages.lst:soft:soft:en:Language
+os.lst:soft:soft:en:OperativeSystem
