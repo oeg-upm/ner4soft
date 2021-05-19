@@ -9,8 +9,15 @@ Check processes.conf to add or modify gazetters and rules
 ## To execute
 
 ```
-java -jar target/valkyr-ie-gate-1.0.jar      
+java -jar valkyr-ie-gate-1.0.jar      
 ```
+
+You can specify the port:
+
+```
+java -jar -Dserver.port=8084 valkyr-ie-gate-1.0.jar      
+```
+
 
 Example of use
 ```
