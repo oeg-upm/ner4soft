@@ -6,17 +6,21 @@ Options: control = appelt
 
 
 Rule:Rule1 
-Priority: 20  
+Priority: 20
+
 (
-	{PythonPackage}
+
+	({PythonPackage}):pack
 	({Token.string == "="})[1,2] 
 
+	(
 	({Token.kind == "number"}{Token.string=="."})[1,3]
 	{Token.kind == "number"}
+	):version
 	
 ):py
 
 -->
-:py.PythonLibrary = {kind="PythonLibrary" rule = "Rule1",string = :py@cleanString}
+:py.PythonLibrary = {kind="PythonLibrary" rule = "Rule1",string = :py@cleanString, version=:version@cleanString,package=:pack@cleanString}
 
 
