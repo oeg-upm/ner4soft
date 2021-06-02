@@ -24,3 +24,46 @@ Priority: 20
 :py.PythonLibrary = {kind="PythonLibrary" rule = "Rule1",string = :py@cleanString, version=:version@cleanString,package=:pack@cleanString}
 
 
+
+Rule:Rule2 
+Priority: 19
+
+(
+
+	({PythonPackage}):pack
+	({Token.string == "v"})
+
+	(
+	({Token.kind == "number"}{Token.string=="."})[1,3]
+	{Token.kind == "number"}
+	):version
+	
+):py
+
+-->
+:py.PythonLibrary = {kind="PythonLibrary" rule = "Rule2",string = :py@cleanString, version=:version@cleanString,package=:pack@cleanString}
+
+
+
+
+
+//(version 0.3.1)
+Rule:Rule2 
+Priority: 18
+
+(
+
+	({PythonPackage}):pack
+
+	({Token.string == "("})
+	({Token.string == "version"})
+
+	(
+	({Token.kind == "number"}{Token.string=="."})[1,3]
+	{Token.kind == "number"}
+	):version
+	
+):py
+
+-->
+:py.PythonLibrary = {kind="PythonLibrary" rule = "Rule3",string = :py@cleanString, version=:version@cleanString,package=:pack@cleanString}

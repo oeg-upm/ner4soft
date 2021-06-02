@@ -1,0 +1,25 @@
+
+Phase: First
+Input: Token OsLookup
+Options: control = appelt
+
+
+
+Rule:Rule1 
+Priority: 20
+
+(
+
+	({OsLookup}):pack
+	
+
+	(
+	({Token.kind == "number"}{Token.string=="."})[0,2]
+	{Token.kind == "number"}
+	):version
+	
+):py
+
+-->
+:py.os = {kind="os" rule = "Rule1",string = :py@cleanString, version=:version@cleanString,package=:pack@cleanString}
+

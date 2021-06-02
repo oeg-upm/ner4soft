@@ -1,0 +1,5 @@
+## Prerequisites
+- Linux or macOS
+- Python 3
+- NVIDIA GPU + CUDA cuDNN
+- PyTorch 0.4
