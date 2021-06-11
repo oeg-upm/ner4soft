@@ -1,3 +1,0 @@
-### Requirements and Dependencies
-- MATLAB (we test with MATLAB R2017a on Ubuntu 16.04 and Windows 7)
-- Cuda & Cudnn (we test with Cuda 8.0 and Cudnn 5.1)
