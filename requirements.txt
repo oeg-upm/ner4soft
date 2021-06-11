@@ -1,3 +1,4 @@
-flask
-flask-restplus
-Werkzeug==0.16.1
+flask==1.1.1
+flask-restplus==0.13.0
+Werkzeug==0.16.0
+requests

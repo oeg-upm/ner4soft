@@ -5,7 +5,7 @@ This repository contains a software-centric NER approach based (initially) in ru
 
 Initial experiments:
 - Dependencies (package, version, higher than/lower than qualifiers)
-- Qualiiers on installation instructions (e.g., platform (Docker, Conda, etc.), OS (Unix, Windows, etc.), and others)
+- Qualifiers on installation instructions (e.g., platform (Docker, Conda, etc.), OS (Unix, Windows, etc.), and others)
 - Persons (citations)
 - Conferences (citations)
 - Frameworks (e.g., Keras, Tensorflow)
