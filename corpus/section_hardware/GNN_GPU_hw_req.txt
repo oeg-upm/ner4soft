@@ -1,0 +1,7 @@
+You must have a compatible NVIDIA GPU for the GPU acceleration to work, however this work consists of performance improvements-for the standard GNN-that can speed up the CPU training as well. The
+scope of this repo is limited to the use of GNN and GPUs though.
+
+
+There is an AWS AMI that was created that you can use (ami-077ae915aa4f576fe), or you can generate your own with [this](https://github.com/xwang2713/cloud-image-build).
+This produces an image with HPCC Systems Platform Community edition, version 7.10.00 pre-installed as well as all other requirements for this bundle, including CUDA version 10.0.
+The image is designed to run on Amazon's [P2](https://aws.amazon.com/ec2/instance-types/p2/) or [P3](https://aws.amazon.com/ec2/instance-types/p3/) machines.
