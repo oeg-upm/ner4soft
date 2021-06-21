@@ -1,0 +1,52 @@
+### Installing a stable Pyro release
+
+**Install using pip:**
+
+Pyro supports Python 3.4+.
+
+```sh
+pip install pyro-ppl
+```
+
+**Install from source:**
+```sh
+git clone git@github.com:pyro-ppl/pyro.git
+cd pyro
+git checkout master  # master is pinned to the latest release
+pip install .
+```
+
+**Install with extra packages:**
+
+To install the dependencies required to run the probabilistic models included in the `examples`/`tutorials` directories, please use the following command:
+```sh
+pip install pyro-ppl[extras] 
+```
+Make sure that the models come from the same release version of the [Pyro source code](https://github.com/pyro-ppl/pyro/releases) as you have installed.
+
+### Installing Pyro dev branch
+
+For recent features you can install Pyro from source.
+
+**Install using pip:**
+
+```sh
+pip install git+https://github.com/pyro-ppl/pyro.git
+```
+
+or, with the `extras` dependency to run the probabilistic models included in the `examples`/`tutorials` directories:
+```sh
+pip install git+https://github.com/pyro-ppl/pyro.git#egg=project[extras]
+```
+
+**Install from source:**
+
+```sh
+git clone https://github.com/pyro-ppl/pyro
+cd pyro
+pip install .  # pip install .[extras] for running models in examples/tutorials
+```
+
+## Running Pyro from a Docker Container
+
+Refer to the instructions [here](docker/README.md).

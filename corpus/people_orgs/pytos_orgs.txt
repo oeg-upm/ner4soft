@@ -1,0 +1,2 @@
+Pyro is in a beta release.  It is developed and maintained by [Uber AI Labs](http://uber.ai) and community contributors.
+For more information, check out our [blog post](http://eng.uber.com/pyro).
