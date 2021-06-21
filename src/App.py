@@ -28,10 +28,11 @@ Created on Wed Mar 31 10:23:50 2021
 
 import flask_restplus
 flask_restplus.__version__
-
+import requests
 import json
 from flask import Flask,request
 from flask_restplus import Api,Resource,fields
+from flask_swagger_ui import get_swaggerui_blueprint
 
 ## For ssl certificates
 #import ssl 
@@ -44,7 +45,19 @@ api = Api(app=app,version='1.0', title='NER4Soft', description='API')
 
 name_space = api.namespace('ner4soft', description='NER APIs')
 
-import requests
+
+
+
+SWAGGERUI_BLUEPRINT = get_swaggerui_blueprint(
+    '/swagger',
+    '/swagger.json',
+    config={
+        'app_name': "ner4soft"
+    }
+)
+app.register_blueprint(SWAGGERUI_BLUEPRINT,url_prefix='/swagger')
+
+
     
 Texto = api.model('Text', {
     'text': fields.String(required=True, description='Text to be processed', default='hello world'),
