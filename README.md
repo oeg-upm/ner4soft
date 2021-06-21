@@ -11,6 +11,13 @@ Initial experiments:
 - Frameworks (e.g., Keras, Tensorflow)
 - Dataset formats
 
+## Running ner4soft API
+(THIS IS WORK IN PROGRESS)
+
+```
+cd src && python App.py
+```
+
 ## Running ner4soft with Docker:
 
 **Building the image:**
