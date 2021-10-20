@@ -1,0 +1,2289 @@
+1 O
+. O
+MXNet O
+from O
+[ O
+the O
+offical B-PythonPackage
+repository O
+] B-PythonPackage
+( O
+https O
+: B-PythonPackage
+//github.com/apache/incubator-mxnet O
+) O
+. O
+We O
+tested O
+our O
+code O
+on O
+[ O
+MXNet O
+@ O
+( O
+v0.10.0 O
+) O
+] O
+( O
+https O
+: O
+//github.com/apache/incubator-mxnet/tree/v0.10.0 O
+) O
+. O
+Due O
+to O
+the O
+rapid O
+development O
+of O
+MXNet O
+, O
+it O
+is O
+recommended O
+to O
+checkout O
+this O
+version O
+if O
+you O
+encounter O
+any O
+issues O
+. O
+We O
+may O
+maintain O
+this O
+repository O
+periodically O
+if O
+MXNet O
+adds O
+important O
+feature O
+in O
+future O
+release O
+. O
+
+
+2 O
+. O
+Python O
+packages O
+might O
+missing O
+: O
+cython O
+, O
+opencv-python O
+> O
+= O
+3.2.0 O
+, O
+easydict O
+. O
+If O
+` O
+pip O
+` O
+is O
+set O
+up O
+on O
+your O
+system O
+, O
+those O
+packages O
+should O
+be O
+able O
+to O
+be O
+fetched O
+and O
+installed O
+by O
+running O
+
+
+CODE_BLOCK O
+
+
+3 O
+. O
+For O
+Windows O
+users O
+, O
+Visual O
+Studio O
+2015 O
+is O
+needed O
+to O
+compile O
+cython O
+module O
+. O
+
+
+Any O
+NVIDIA O
+GPUs O
+with O
+at O
+least O
+8GB O
+memory O
+should O
+be O
+OK O
+. O
+
+
+- O
+MATLAB O
+( O
+we O
+test O
+with O
+MATLAB O
+R2017a O
+on O
+Ubuntu O
+16.04 O
+and O
+Windows O
+7 O
+) O
+
+
+- O
+Cuda O
+& O
+Cudnn O
+( O
+we O
+test O
+with O
+Cuda O
+8.0 O
+and O
+Cudnn O
+5.1 O
+) O
+
+
+1 O
+. O
+Linux O
+
+
+2 O
+. O
+Python O
+2 O
+or O
+3 O
+
+
+3 O
+. O
+CPU O
+or O
+NVIDIA O
+GPU O
++ O
+CUDA O
+CuDNN O
+( O
+CUDA O
+8.0 O
+) O
+
+
+*GemPy* O
+requires O
+Python O
+3 O
+and O
+makes O
+use O
+of O
+numerous O
+open-source O
+libraries O
+: O
+
+
+* O
+pandas O
+> O
+=0.21.0 O
+
+
+* O
+cython O
+
+
+* O
+Theano O
+
+
+* O
+matplotlib O
+
+
+* O
+numpy O
+
+
+* O
+pytest O
+
+
+* O
+nbsphinx O
+
+
+* O
+seaborn O
+
+
+* O
+networkx O
+
+
+* O
+ipywidgets O
+
+
+Optional O
+: O
+
+
+* O
+git+git O
+: O
+//github.com/Leguark/scikit-image O
+@ O
+master O
+
+
+* O
+steno3d O
+
+
+* O
+vtk O
+
+
+* O
+gdal O
+
+
+* O
+qgrid O
+
+
+* O
+pymc O
+
+
+* O
+pymc3 O
+
+
+* O
+` O
+vtk O
+> O
+=7 O
+` O
+for O
+interactive O
+3-D O
+visualization O
+
+
+* O
+` O
+pymc O
+` O
+or O
+` O
+pymc3 O
+` O
+
+
+* O
+` O
+steno3d O
+` O
+
+
+Overall O
+we O
+recommend O
+the O
+use O
+of O
+a O
+dedicated O
+Python O
+distribution O
+, O
+such O
+as O
+
+
+[ O
+Anaconda O
+] O
+( O
+https O
+: O
+//www.continuum.io/what-is-anaconda O
+) O
+, O
+for O
+hassle-free O
+package O
+installation O
+. O
+
+
+We O
+are O
+currently O
+working O
+on O
+providing O
+GemPy O
+also O
+via O
+Anaconda O
+Cloud O
+, O
+for O
+easier O
+installation O
+of O
+
+
+its O
+dependencies O
+. O
+
+
+- O
+**python O
+2.7** O
+
+
+- O
+**numpy O
+1.13.1** O
+
+
+- O
+**pytorch O
+0.3.0** O
+and O
+**torchvision** O
+: O
+Follow O
+the O
+instructions O
+from O
+[ O
+their O
+website O
+] O
+( O
+http O
+: O
+//pytorch.org/ O
+) O
+. O
+
+
+- O
+**opencv O
+3.1.0** O
+: O
+Run O
+`` O
+conda O
+install O
+-c O
+menpo O
+opencv O
+`` O
+or O
+`` O
+pip O
+install O
+opencv-python O
+`` O
+. O
+
+
+- O
+**imageio O
+2.2.0** O
+( O
+with O
+freeimage O
+plugin O
+) O
+: O
+Run O
+`` O
+conda O
+install O
+-c O
+conda-forge O
+imageio O
+`` O
+or O
+`` O
+pip O
+install O
+imageio O
+`` O
+. O
+To O
+install O
+freeimage O
+plugin O
+, O
+run O
+the O
+following O
+Python O
+script O
+once O
+: O
+
+
+CODE_BLOCK O
+
+
+- O
+**h5py O
+2.7.0** O
+: O
+Run O
+`` O
+conda O
+install O
+h5py O
+`` O
+or O
+`` O
+pip O
+install O
+h5py O
+`` O
+. O
+
+
+- O
+**lz4 O
+0.23.1** O
+: O
+Run O
+`` O
+pip O
+install O
+lz4 O
+`` O
+. O
+
+
+- O
+**cuda O
+8.0.61** O
+and O
+**16GB O
+GPU O
+RAM** O
+( O
+required O
+for O
+gpu O
+support O
+) O
+: O
+The O
+training O
+codes O
+use O
+up O
+to O
+14GB O
+of O
+the O
+GPU O
+RAM O
+with O
+the O
+default O
+configuration O
+. O
+We O
+train O
+our O
+model O
+with O
+an O
+NVIDIA O
+Tesla O
+P100 O
+GPU O
+. O
+To O
+reduce O
+GPU O
+RAM O
+usage O
+, O
+feel O
+free O
+to O
+try O
+smaller O
+`` O
+-- O
+patch_width O
+`` O
+, O
+`` O
+-- O
+patch_height O
+`` O
+, O
+`` O
+-- O
+num_depths O
+`` O
+, O
+and O
+`` O
+-- O
+max_num_neighbors O
+`` O
+. O
+However O
+, O
+the O
+resulting O
+model O
+may O
+not O
+show O
+the O
+efficacy O
+as O
+appeared O
+in O
+our O
+paper O
+. O
+
+
+- O
+**python O
+2.7** O
+
+
+- O
+**numpy O
+1.13.1** O
+
+
+- O
+**pytorch O
+0.3.0** O
+and O
+**torchvision** O
+: O
+Follow O
+the O
+instructions O
+from O
+[ O
+their O
+website O
+] O
+( O
+http O
+: O
+//pytorch.org/ O
+) O
+. O
+
+
+- O
+**opencv O
+3.1.0** O
+: O
+Run O
+`` O
+conda O
+install O
+-c O
+menpo O
+opencv O
+`` O
+or O
+`` O
+pip O
+install O
+opencv-python O
+`` O
+. O
+
+
+- O
+**imageio O
+2.2.0** O
+: O
+Run O
+`` O
+conda O
+install O
+-c O
+conda-forge O
+imageio O
+`` O
+or O
+`` O
+pip O
+install O
+imageio O
+`` O
+. O
+
+
+- O
+**pyquaternion O
+0.9.0** O
+: O
+Run O
+`` O
+pip O
+install O
+pyquaternion O
+`` O
+. O
+
+
+- O
+**pydensecrf** O
+: O
+Run O
+`` O
+pip O
+install O
+pydensecrf O
+`` O
+. O
+
+
+- O
+**cuda O
+8.0.61** O
+and O
+**6GB O
+GPU O
+RAM** O
+( O
+required O
+for O
+gpu O
+support O
+) O
+: O
+The O
+testing O
+codes O
+use O
+up O
+to O
+4GB O
+of O
+the O
+GPU O
+RAM O
+with O
+the O
+default O
+configuration O
+. O
+
+
+- O
+**COLMAP O
+3.2** O
+: O
+Follow O
+the O
+instructions O
+from O
+[ O
+their O
+website O
+] O
+( O
+https O
+: O
+//colmap.github.io/ O
+) O
+. O
+
+
+Shapely O
+1.6 O
+requires O
+
+
+* O
+Python O
+2.7 O
+, O
+> O
+=3.4 O
+
+
+* O
+GEOS O
+> O
+=3.3 O
+
+
+* O
+Compiler O
+Java O
+8 O
+
+
+* O
+Runtime O
+Java O
+8 O
+or O
+later O
+
+
+This O
+package O
+has O
+the O
+following O
+requirements O
+: O
+
+
+* O
+` O
+Python O
+2.7 O
+` O
+
+
+* O
+` O
+Pytorch O
+v0.4.0 O
+` O
+or O
+` O
+Pytorch O
+v0.1.12 O
+` O
+
+
+Note O
+that O
+the O
+script O
+name O
+with O
+string O
+` O
+prev-version O
+` O
+requires O
+` O
+Pytorch O
+v0.1.12 O
+` O
+. O
+
+
+For O
+default O
+tile O
+serving O
+
+
++ O
+GDAL O
+> O
+= O
+2.1.0 O
+
+
++ O
+mapnik O
+> O
+= O
+3.1.0 O
+
+
++ O
+python-mapnik O
+> O
+= O
+0.1 O
+
+
+- O
+Tensorflow O
+1.3 O
+( O
+or O
+latest O
+, O
+although O
+not O
+tested O
+) O
+
+
+- O
+Preferably O
+a O
+Titan O
+X O
+for O
+synthesizing O
+12 O
+frames O
+
+
+- O
+Appearance-stream O
+[ O
+tfmodel O
+] O
+( O
+https O
+: O
+//drive.google.com/open O
+? O
+id=19KkFi92oWLzuOWnGo6Zsqe-2CCXFAoXZ O
+) O
+
+
+- O
+Dynamics-stream O
+[ O
+tfmodel O
+] O
+( O
+https O
+: O
+//drive.google.com/open O
+? O
+id=1DHnzoNO-iTgMUTbUOLrigEmpPHmn_mT1 O
+) O
+
+
+- O
+[ O
+Dynamic O
+textures O
+] O
+( O
+https O
+: O
+//drive.google.com/open O
+? O
+id=0B5T9jWfa9iDySWJHZnpNZ2dHWUk O
+) O
+
+
+- O
+[ O
+Static O
+textures O
+] O
+( O
+https O
+: O
+//drive.google.com/open O
+? O
+id=11yMiPXiuYvLCyoLfQf_dEG6kuav8h6_3 O
+) O
+( O
+for O
+dynamics O
+style O
+transfer O
+) O
+
+
+* O
+System O
+( O
+tested O
+on O
+Ubuntu O
+14.04LTS O
+and O
+Win10 O
+) O
+
+
+* O
+NVIDIA O
+GPU O
++ O
+CUDA O
+CuDNN O
+( O
+CPU O
+mode O
+is O
+also O
+supported O
+but O
+significantly O
+slower O
+) O
+
+
+* O
+[ O
+Python O
+> O
+=3.5 O
+] O
+( O
+https O
+: O
+//www.python.org O
+) O
+
+
+* O
+[ O
+PyTorch O
+> O
+=0.4 O
+] O
+( O
+https O
+: O
+//pytorch.org O
+) O
+
+
+* O
+[ O
+Jupyter O
+Notebook O
+] O
+( O
+https O
+: O
+//jupyter.org/install.html O
+) O
+and O
+[ O
+ipywidgets O
+] O
+( O
+https O
+: O
+//github.com/jupyter-widgets/ipywidgets O
+) O
+( O
+required O
+by O
+the O
+demo O
+) O
+: O
+
+
+CODE_BLOCK O
+
+
+See O
+the O
+fb.resnet.torch O
+[ O
+installation O
+instructions O
+] O
+( O
+https O
+: O
+//github.com/facebook/fb.resnet.torch/blob/master/INSTALL.md O
+) O
+for O
+a O
+step-by-step O
+guide O
+. O
+
+
+- O
+Install O
+[ O
+Torch O
+] O
+( O
+http O
+: O
+//torch.ch/docs/getting-started.html O
+) O
+on O
+a O
+machine O
+with O
+CUDA O
+GPU O
+
+
+- O
+Install O
+[ O
+cuDNN O
+v4 O
+or O
+v5 O
+] O
+( O
+https O
+: O
+//developer.nvidia.com/cudnn O
+) O
+and O
+the O
+Torch O
+[ O
+cuDNN O
+bindings O
+] O
+( O
+https O
+: O
+//github.com/soumith/cudnn.torch/tree/R4 O
+) O
+
+
+- O
+Download O
+the O
+[ O
+ImageNet O
+] O
+( O
+http O
+: O
+//image-net.org/download-images O
+) O
+dataset O
+and O
+[ O
+move O
+validation O
+images O
+] O
+( O
+https O
+: O
+//github.com/facebook/fb.resnet.torch/blob/master/INSTALL.md O
+# O
+download-the-imagenet-dataset O
+) O
+to O
+labeled O
+subfolders O
+
+
+- O
+Linux O
+or O
+macOS O
+
+
+- O
+Python O
+3 O
+
+
+- O
+NVIDIA O
+GPU O
++ O
+CUDA O
+cuDNN O
+
+
+- O
+PyTorch O
+0.4 O
+
+
+A O
+few O
+things O
+to O
+be O
+installed O
+in O
+your O
+system O
+in O
+order O
+to O
+work O
+properly O
+. O
+So O
+far O
+it O
+has O
+been O
+**tested O
+on O
+Mac O
+OS O
+X O
+Lion** O
+so O
+these O
+instructions O
+apply O
+to O
+that O
+configuration O
+only O
+. O
+I O
+am O
+sure O
+you O
+will O
+be O
+able O
+to O
+adapt O
+it O
+to O
+your O
+current O
+configuration O
+. O
+
+
+* O
+[ O
+Python O
+] O
+with O
+[ O
+OpenCV O
+] O
+and O
+[ O
+PIL O
+] O
+
+
+* O
+If O
+you O
+use O
+[ O
+PIP O
+] O
+( O
+https O
+: O
+//pypi.python.org/pypi O
+) O
+( O
+recommended O
+) O
+you O
+will O
+get O
+the O
+necessary O
+Python O
+packages O
+with O
+: O
+` O
+pip O
+install O
+-r O
+requirements.txt O
+` O
+
+
+* O
+[ O
+R O
+] O
+- O
+Make O
+sure O
+it O
+is O
+in O
+your O
+PATH O
+( O
+so O
+you O
+can O
+run O
+it O
+via O
+command-line O
+by O
+typing O
+` O
+R O
+` O
+) O
+. O
+
+
+* O
+You O
+'ll O
+need O
+the O
+following O
+R O
+packages O
+. O
+On O
+OS O
+X O
+simply O
+navigate O
+to O
+` O
+Packages O
+& O
+Data O
+` O
+, O
+choose O
+your O
+CRAN O
+mirror O
+region O
+, O
+then O
+search O
+for O
+and O
+install O
+: O
+
+
+* O
+` O
+alphahull O
+` O
+( O
+you O
+will O
+need O
+` O
+tripack O
+` O
+, O
+` O
+sgeostat O
+` O
+, O
+` O
+splancs O
+` O
+as O
+dependencies O
+) O
+
+
+* O
+` O
+igraph O
+` O
+
+
+* O
+` O
+shapefiles O
+` O
+
+
+* O
+` O
+rgdal O
+` O
+( O
+download O
+the O
+[ O
+binary O
+for O
+your O
+OS O
+] O
+( O
+http O
+: O
+//cran.r-project.org/web/packages/rgdal/index.html O
+) O
+then O
+run O
+` O
+R O
+CMD O
+INSTALL O
+-- O
+configure-args= O
+'' O
+'' O
+path/to/rgdal.tar.gz O
+` O
+) O
+
+
+* O
+You O
+can O
+also O
+install O
+the O
+requirements O
+by O
+running O
+this O
+in O
+the O
+R O
+CLI O
+( O
+by O
+typing O
+` O
+R O
+` O
+in O
+a O
+terminal O
+window O
+) O
+: O
+
+
+CODE_BLOCK O
+
+
+* O
+Test O
+that O
+everything O
+in O
+R O
+is O
+installed O
+, O
+on O
+the O
+CLI O
+you O
+should O
+be O
+able O
+to O
+run O
+this O
+with O
+no O
+errors O
+: O
+
+
+CODE_BLOCK O
+
+
+* O
+[ O
+GIMP O
+] O
+
+
+* O
+[ O
+GDAL O
+Tools O
+] O
+, O
+on O
+OS O
+X O
+try O
+[ O
+version O
+1.9 O
+] O
+( O
+http O
+: O
+//www.kyngchaos.com/files/software/frameworks/GDAL_Complete-1.9.dmg O
+) O
+. O
+Per O
+[ O
+MapBox O
+] O
+( O
+https O
+: O
+//www.mapbox.com/tilemill/docs/guides/gdal/ O
+) O
+: O
+The O
+first O
+time O
+you O
+install O
+the O
+GDAL O
+package O
+there O
+is O
+one O
+additional O
+step O
+to O
+make O
+sure O
+you O
+can O
+access O
+these O
+programs O
+. O
+In O
+Mac O
+OS O
+, O
+Open O
+the O
+Terminal O
+application O
+and O
+run O
+the O
+following O
+commands O
+: O
+
+
+CODE_BLOCK O
+
+
+* O
+It O
+is O
+also O
+a O
+good O
+idea O
+to O
+install O
+[ O
+QGIS O
+] O
+to O
+test O
+your O
+results O
+
+
+* O
+[ O
+jinja2 O
+] O
+( O
+http O
+: O
+//jinja.pocoo.org/ O
+) O
+
+
+Optional O
+
+
+* O
+[ O
+pyproj O
+] O
+( O
+https O
+: O
+//code.google.com/p/pyproj/ O
+) O
+Only O
+needed O
+if O
+you O
+only O
+use O
+non-WGS-84 O
+projections O
+. O
+
+
+* O
+[ O
+GeoPandas O
+] O
+( O
+https O
+: O
+//github.com/kjordahl/geopandas O
+) O
+To O
+make O
+your O
+life O
+easier O
+. O
+
+
+CODE_BLOCK O
+
+
+* O
+**Tensorflow O
+1.2.0** O
+
+
+* O
+Python O
+2.7 O
+
+
+* O
+CUDA O
+8.0+ O
+( O
+For O
+GPU O
+) O
+
+
+* O
+Python O
+Libraries O
+: O
+numpy O
+, O
+scipy O
+and O
+__laspy__ O
+
+
+The O
+code O
+has O
+been O
+tested O
+with O
+Python O
+2.7 O
+, O
+Tensorflow O
+1.2.0 O
+, O
+CUDA O
+8.0 O
+and O
+cuDNN O
+5.1 O
+on O
+Ubuntu O
+14.04 O
+. O
+But O
+it O
+may O
+work O
+on O
+more O
+machines O
+( O
+directly O
+or O
+through O
+mini-modification O
+) O
+, O
+pull-requests O
+or O
+test O
+report O
+are O
+well O
+welcomed O
+. O
+
+
+1 O
+. O
+Linux O
+
+
+2 O
+. O
+Python O
+2 O
+or O
+3 O
+
+
+3 O
+. O
+CPU O
+or O
+NVIDIA O
+GPU O
++ O
+CUDA O
+CuDNN O
+( O
+CUDA O
+8.0 O
+) O
+
+
+Strongly O
+recommended O
+to O
+install O
+via O
+[ O
+anaconda O
+] O
+( O
+https O
+: O
+//www.anaconda.com/download O
+) O
+: O
+
+
+- O
+[ O
+` O
+obspy O
+` O
+] O
+( O
+https O
+: O
+//obspy.org/ O
+) O
+
+
+- O
+[ O
+` O
+matplotlib O
+` O
+] O
+( O
+https O
+: O
+//matplotlib.org/ O
+) O
+
+
+- O
+[ O
+` O
+numpy O
+` O
+] O
+( O
+http O
+: O
+//www.numpy.org/ O
+) O
+
+
+- O
+[ O
+` O
+pandas O
+` O
+] O
+( O
+https O
+: O
+//pandas.pydata.org/ O
+) O
+
+
+- O
+[ O
+` O
+h5py O
+` O
+] O
+( O
+https O
+: O
+//www.h5py.org/ O
+) O
+
+
+Install O
+via O
+` O
+pip O
+` O
+: O
+
+
+- O
+[ O
+` O
+pynmea2 O
+` O
+] O
+( O
+https O
+: O
+//pypi.org/project/pynmea2/ O
+) O
+
+
+- O
+[ O
+` O
+geopy O
+` O
+] O
+( O
+https O
+: O
+//pypi.org/project/geopy/ O
+) O
+
+
+- O
+[ O
+` O
+pytz O
+` O
+] O
+( O
+https O
+: O
+//pypi.org/project/pytz/ O
+) O
+
+
+- O
+Python O
+> O
+=3.6 O
+
+
+- O
+Pytorch O
+> O
+=4.1.0 O
+
+
+- O
+Opencv O
+> O
+=3.1.0 O
+
+
+- O
+tensorboardX O
+
+
+* O
+Install O
+**Ubuntu O
+16.04** O
+
+
+* O
+Download O
+the O
+installation O
+script O
+
+
+CODE_BLOCK O
+
+
+* O
+Run O
+the O
+script O
+to O
+install O
+everything O
+( O
+ROS O
+, O
+realsense O
+driver O
+, O
+etc. O
+) O
+. O
+**Please O
+connect O
+the O
+nuc O
+machine O
+to O
+a O
+realsense O
+camera O
+before O
+running O
+the O
+following O
+commands** O
+. O
+
+
+CODE_BLOCK O
+
+
+CPU O
+: O
+Intel O
+( O
+R O
+) O
+Core O
+( O
+TM O
+) O
+i7-7700 O
+CPU O
+@ O
+3.60GHz O
+
+
+GPU O
+: O
+NVIDIA O
+GTX1060 O
+
+
+- O
+python2.7 O
+
+
+- O
+pytorch O
+== O
+0.3.1 O
+
+
+- O
+numpy O
+
+
+- O
+opencv O
+
+
+- O
+install O
+pytorch O
+, O
+numpy O
+, O
+opencv O
+following O
+the O
+instructions O
+in O
+the O
+` O
+run_install.sh O
+` O
+. O
+Please O
+do O
+**not** O
+use O
+conda O
+to O
+install O
+. O
+
+
+- O
+you O
+can O
+alternatively O
+modify O
+` O
+/PATH/TO/CODE/FOLDER/ O
+` O
+in O
+` O
+tracker_SiamRPN.m O
+` O
+
+
+If O
+the O
+tracker O
+is O
+ready O
+, O
+you O
+will O
+see O
+the O
+tracking O
+results O
+. O
+( O
+EAO O
+: O
+0.3827 O
+) O
+
+
+- O
+Python O
+2.7 O
+
+
+- O
+[ O
+TensorFlow O
+] O
+( O
+https O
+: O
+//www.tensorflow.org/ O
+) O
+tested O
+on O
+version O
+1.3 O
+, O
+demo O
+alone O
+runs O
+with O
+TF O
+1.12 O
+
+
+1 O
+. O
+Tensorflow O
+, O
+tested O
+with O
+version O
+1.6 O
+with O
+Ubuntu O
+16.04 O
+, O
+installed O
+with O
+: O
+
+
+CODE_BLOCK O
+
+
+2 O
+. O
+Other O
+packages O
+needed O
+can O
+be O
+installed O
+with O
+` O
+pip O
+` O
+: O
+
+
+CODE_BLOCK O
+
+
+3 O
+. O
+For O
+running O
+COCO O
+, O
+the O
+API O
+can O
+be O
+installed O
+globally O
+: O
+
+
+CODE_BLOCK O
+
+
+- O
+Install O
+PyTorch O
+( O
+version O
+0.3.1 O
+) O
+, O
+Torch O
+Vision O
+and O
+dependencies O
+from O
+http O
+: O
+//pytorch.org O
+
+
+- O
+Install O
+requirements.txt O
+( O
+CODE_BLOCK O
+) O
+
+
+* O
+[ O
+PyTorch O
+] O
+( O
+http O
+: O
+//pytorch.org/ O
+) O
+
+
+CODE_BLOCK O
+
+
+* O
+FFmpeg O
+, O
+FFprobe O
+
+
+CODE_BLOCK O
+
+
+* O
+Python O
+3 O
+
+
+- O
+Python2.7 O
+
+
+- O
+Scipy O
+
+
+- O
+Scikit-image O
+
+
+- O
+numpy O
+
+
+- O
+Tensorflow O
+1.4 O
+with O
+NVIDIA O
+GPU O
+or O
+CPU O
+( O
+cpu O
+testing O
+is O
+very O
+slow O
+) O
+
+
+Python O
+
+
+^^^^^^ O
+
+
+HyVR O
+was O
+developed O
+for O
+use O
+with O
+Python O
+3.4 O
+or O
+greater O
+. O
+It O
+may O
+be O
+possible O
+to O
+use O
+
+
+with O
+earlier O
+versions O
+of O
+Python O
+3 O
+, O
+however O
+this O
+has O
+not O
+been O
+tested O
+. O
+
+
+Dependencies O
+
+
+^^^^^^^^^^^^^^ O
+
+
+* O
+` O
+numpy O
+` O
+_ O
+< O
+= O
+1.13.3 O
+
+
+* O
+` O
+matplotlib O
+` O
+_ O
+< O
+= O
+2.1.0 O
+
+
+* O
+` O
+scipy O
+` O
+_ O
+= O
+1.0.0 O
+
+
+* O
+` O
+pandas O
+` O
+_ O
+= O
+0.21.0 O
+
+
+* O
+` O
+flopy O
+` O
+_ O
+== O
+3.2.9 O
+( O
+optional O
+for O
+modflow O
+output O
+) O
+
+
+* O
+` O
+pyevtk O
+` O
+_ O
+= O
+1.1.0 O
+( O
+optional O
+for O
+VTK O
+output O
+) O
+
+
+* O
+` O
+h5py O
+` O
+_ O
+( O
+optional O
+for O
+HDF5 O
+output O
+) O
+
+
