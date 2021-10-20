@@ -98,7 +98,7 @@ class Requirements(Resource):
         text = data.get('text')
         entities = post_valkyrie(text)
         current_app.logger.info('received a requirement request')
-        return prepare_request_by_type(entities, ['PythonLibrary', 'Hardware'])
+        return prepare_request_by_type(entities, ['PythonLibrary','Language', 'Hardware'])
 
 
 @name_space.route("/usage/")
