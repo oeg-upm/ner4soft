@@ -7,6 +7,11 @@
 
 import flask_restplus
 import requests
+import re
+import tempfile
+import os
+from somef.cli import cli_get_data
+from bs4 import BeautifulSoup
 from flask import Flask, request, current_app, abort
 from flask_restplus import Api, Resource, fields
 from flask_swagger_ui import get_swaggerui_blueprint
@@ -41,6 +46,62 @@ Text = api.model('Text', {
                           default='This software is was designed for Ubuntu and Pytorch 1.0'),
 })
 
+Repo_URL = api.model('Repo_URL', {
+    'repo_url': fields.Url(required=True, description='Url of the repo from which we will process the READMEs.')
+})
+
+def cli_get_results(doc_name,repo_data):
+    results = {
+    "description": [],
+    "acknowledgement": [],
+    "installation": [],
+    "requirement": [],
+    "usage": []
+    }
+
+    for i in repo_data.keys():
+            if i in results.keys():
+                # filter those which are header analysis
+                section_result = repo_data[i]
+                for j in section_result:
+                    if j["technique"] == "Header extraction":
+                        #print(i)
+                        current_list = results[i]
+                        text_with_no_code = re.sub(r"```.*?```", 'CODE_BLOCK', j["excerpt"], 0, re.DOTALL)
+                        result = {
+                            "id": len(current_list) + 1,
+                            "title": doc_name,
+                            "text": text_with_no_code
+                        }
+                        current_list.append(result)
+                        results[i] = current_list
+    return results
+
+def apply_somef(url):
+    # Get the repo html
+    r = requests.get(url).text
+    soup = BeautifulSoup(r,'html.parser')
+
+    git_base_url = "https://github.com"
+    # Get all the urls of the various files to analize from the html of the repo
+    urls = [f"{git_base_url}{a['href']}" for a in soup.find_all('a', href=True) if 'blob' in a['href']]
+    # Get all the individual files html from the urls found
+    raw_r = [requests.get(url).text for url in urls]
+    # Get the raw url of each file (when requested it will return the markdown itself instead of the html)
+    raw_urls = [f"{git_base_url}{a['href']}" for a in [s.find(id="raw-url", href=True) for s in [BeautifulSoup(_r,'html.parser') for _r in raw_r]]]
+    url_doc = requests.get(raw_urls[0]).text
+    doc_names = [r.split('/')[-1] for r in raw_urls]
+    # Directory and file will auto-delete once out of with block
+    with tempfile.TemporaryDirectory() as td:
+        tf_name = os.path.join(td,'temp.md')
+        # Creating a file with the contents of the markdown for cli to read
+        with open(tf_name, 'w', encoding='utf-8') as tf:
+            tf.write(url_doc)
+        repo_data = cli_get_data(0.8, True, doc_src=os.path.join(tf_name))
+
+
+    res_url = cli_get_results(doc_names[0],repo_data)
+    return res_url
 
 def post_valkyrie(text):
     try:
@@ -135,5 +196,15 @@ class Requirements(Resource):
         return prepare_request_by_type(entities, ['Person'])
 
 
+@name_space.route("/somef/")
+class Somef(Resource):
+
+    @api.expect(Repo_URL)
+    def post(self):
+        data = request.json
+        url = data.get('repo_url')
+        return apply_somef(url)
+
+
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=8080)  # ssl_context='adhoc'
+    app.run(debug=True, host='localhost', port=8080)  # ssl_context='adhoc'
