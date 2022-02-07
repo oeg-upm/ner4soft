@@ -77,31 +77,6 @@ def cli_get_results(doc_name,repo_data):
                         results[i] = current_list
     return results
 
-def apply_somef(url):
-    # Get the repo html
-    r = requests.get(url).text
-    soup = BeautifulSoup(r,'html.parser')
-
-    git_base_url = "https://github.com"
-    # Get all the urls of the various files to analize from the html of the repo
-    urls = [f"{git_base_url}{a['href']}" for a in soup.find_all('a', href=True) if 'blob' in a['href']]
-    # Get all the individual files html from the urls found
-    raw_r = [requests.get(url).text for url in urls]
-    # Get the raw url of each file (when requested it will return the markdown itself instead of the html)
-    raw_urls = [f"{git_base_url}{a['href']}" for a in [s.find(id="raw-url", href=True) for s in [BeautifulSoup(_r,'html.parser') for _r in raw_r]]]
-    url_doc = requests.get(raw_urls[0]).text
-    doc_names = [r.split('/')[-1] for r in raw_urls]
-    # Directory and file will auto-delete once out of with block
-    with tempfile.TemporaryDirectory() as td:
-        tf_name = os.path.join(td,'temp.md')
-        # Creating a file with the contents of the markdown for cli to read
-        with open(tf_name, 'w', encoding='utf-8') as tf:
-            tf.write(url_doc)
-        repo_data = cli_get_data(0.8, True, doc_src=os.path.join(tf_name))
-
-
-    res_url = cli_get_results(doc_names[0],repo_data)
-    return res_url
 
 def post_valkyrie(text):
     try:
@@ -203,7 +178,10 @@ class Somef(Resource):
     def post(self):
         data = request.json
         url = data.get('repo_url')
-        return apply_somef(url)
+        doc_name = url.split("/")[4]
+        data = cli_get_data(0.8, True, repo_url=url)
+        res = cli_get_results(doc_name, data)
+        return res
 
 
 if __name__ == '__main__':
