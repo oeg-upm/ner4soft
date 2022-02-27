@@ -50,6 +50,19 @@ Repo_URL = api.model('Repo_URL', {
     'repo_url': fields.Url(required=True, description='Url of the repo from which we will process the READMEs.')
 })
 
+Somef_context = api.model('Somef_contex', {
+    'id': fields.Integer,
+    'title': fields.String,
+    'text': fields.String
+})
+Somef_Res = api.model('Somef_Res', {
+    'description': fields.List(fields.Nested(Somef_context)),
+    'acknowledgement': fields.List(fields.Nested(Somef_context)),
+    'installation': fields.List(fields.Nested(Somef_context)),
+    'requirement': fields.List(fields.Nested(Somef_context)),
+    'usage': fields.List(fields.Nested(Somef_context))
+})
+
 def cli_get_results(doc_name,repo_data):
     results = {
     "description": [],
@@ -182,6 +195,15 @@ class Somef(Resource):
         data = cli_get_data(0.8, True, repo_url=url)
         res = cli_get_results(doc_name, data)
         return res
+
+@name_space.route("/algo/")
+class Somef(Resource):
+
+    @api.expect(Somef_Res)
+    def post(self):
+        data = request.json
+        installation = data.get('installation')
+        return installation
 
 
 if __name__ == '__main__':
