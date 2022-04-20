@@ -7,6 +7,9 @@
 
 import flask_restplus
 import requests
+import re
+import json
+from somef.cli import cli_get_data
 from flask import Flask, request, current_app, abort
 from flask_restplus import Api, Resource, fields
 from flask_swagger_ui import get_swaggerui_blueprint
@@ -41,6 +44,127 @@ Text = api.model('Text', {
                           default='This software is was designed for Ubuntu and Pytorch 1.0'),
 })
 
+Repo_URL = api.model('Repo_URL', {
+    'repo_url': fields.Url(required=True, description='Url of the repo from which we will process the READMEs.')
+})
+
+Section_Body = api.model('Section_Body', {
+    'originalHeader': fields.String,
+    'excerpt': fields.String,
+    'confidence': fields.List(fields.Integer),
+    'technique': fields.String,
+    'parentHeader': fields.String
+})
+Somef_Res = api.model('Somef_Res', {
+    'name': fields.String,
+    'description': fields.List(fields.Nested(Section_Body)),
+    'acknowledgement': fields.List(fields.Nested(Section_Body)),
+    'installation': fields.List(fields.Nested(Section_Body)),
+    'requirement': fields.List(fields.Nested(Section_Body)),
+    'usage': fields.List(fields.Nested(Section_Body))
+})
+
+Entity_Body = api.model('Entity_Body', {
+    'id': fields.Integer,
+    'name': fields.String,
+    'type': fields.String,
+    'start': fields.Integer,
+    'end': fields.Integer
+})
+
+Ner_Body = api.model('Ner_Body', {
+    'technique': fields.String,
+    'version': fields.String,
+    'entities': fields.List(fields.Nested(Entity_Body))
+})
+
+Ner_Section_Body = api.model('Ner_Section_Body', {
+    'originalHeader': fields.String,
+    'excerpt': fields.String,
+    'confidence': fields.List(fields.Integer),
+    'technique': fields.String,
+    'parentHeader': fields.String,
+    'ner': fields.Nested(Ner_Body)
+})
+
+Ner_Res = api.model('Ner_Res', {
+    'name': fields.String,
+    'description': fields.List(fields.Nested(Ner_Section_Body)),
+    'acknowledgement': fields.List(fields.Nested(Ner_Section_Body)),
+    'installation': fields.List(fields.Nested(Ner_Section_Body)),
+    'requirement': fields.List(fields.Nested(Ner_Section_Body)),
+    'usage': fields.List(fields.Nested(Ner_Section_Body))
+})
+
+def cli_get_results(repo_data):
+    results = {
+        "name": repo_data["name"]["excerpt"],
+        "description": [],
+        "acknowledgement": [],
+        "installation": [],
+        "requirement": [],
+        "usage": []
+    }
+
+    for i in repo_data.keys():
+            if i in results.keys() and i != "name":
+                # filter those which are header analysis
+                section_result = repo_data[i]
+                for j in section_result:
+                    if j["technique"] == "Header extraction":
+                        #print(i)
+                        current_list = results[i]
+                        text_with_no_code = re.sub(r"```.*?```", 'CODE_BLOCK', j["excerpt"], 0, re.DOTALL)
+                        result = {
+                            "originalHeader": j["originalHeader"],
+                            "excerpt": text_with_no_code,
+                            "confidence": j["confidence"],
+                            "technique": j["technique"]
+                        }
+                        if "parentHeader" in j: result['parentHeader'] = j['parentHeader'] 
+                        current_list.append(result)
+                        results[i] = current_list
+    return results
+
+def predict(excerpt):
+    '''
+    TODO: implementar llamada al modelo con el texto
+    Lo que hay actualmente es placeholder
+    '''
+    return {
+            'technique': 'NER4Soft',
+            'version': '1.4.5',
+            'entities': [
+                {
+                    'id': 0,
+                    'name': 'string',
+                    'type': 'string',
+                    'start': 0,
+                    'end': 0
+                },
+                {
+                    'id': 1,
+                    'name': 'string',
+                    'type': 'string',
+                    'start': 0,
+                    'end': 0
+                }
+            ]
+    }
+
+def ner_get_results(somef_data):
+    results = somef_data
+    for k in results.keys():
+        if k != 'name':
+            for i in range(len(results[k])):
+                ner_data = predict(results[k][i]['excerpt'])
+                results[k][i]['ner'] = {
+                    'technique': ner_data['technique'],
+                    'version': ner_data['version'],
+                    'entities': ner_data['entities']
+                }
+    return results
+  
 
 def post_valkyrie(text):
     try:
@@ -135,5 +259,34 @@ class Requirements(Resource):
         return prepare_request_by_type(entities, ['Person'])
 
 
+@name_space.route("/somef/")
+class Somef(Resource):
+
+    @api.expect(Repo_URL)
+    @api.response(200, 'Success', Somef_Res)
+    def post(self):
+        '''
+        Method for obtaining a SOMEF result given a github URL
+        '''
+        data = request.json
+        url = data.get('repo_url')
+        data = cli_get_data(0.8, True, repo_url=url)
+        res = cli_get_results(data)
+        return res
+
+@name_space.route("/predict/")
+class Somef(Resource):
+
+    @api.expect(Somef_Res)
+    @api.response(200, 'Success', Ner_Res)
+    def post(self):
+        '''
+        Method for generating the knowledge given a Somef result
+        '''
+        data = request.json
+        res = ner_get_results(data)
+        return res
+
+
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=8080)  # ssl_context='adhoc'
+    app.run(debug=True, host='localhost', port=8080)  # ssl_context='adhoc'
