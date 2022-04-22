@@ -25,7 +25,7 @@ def load_encoding():
 
 
 def predict(excerpt):
-    text = "Data collection: CrystalClear (Rigaku, 2005 ▶); cell refinement: CrystalClear; data reduction: CrystalClear; program(s) used to solve structure: SHELXS97 (Sheldrick, 2008 ▶); program(s) used to refine structure: SHELXL97 (Sheldrick, 2008 ▶); molecular graphics: ORTEP-3 for Windows (Farrugia, 1997 ▶) and PLATON (Spek, 2009 ▶); software used to prepare material for publication: SHELXL97."
+    text = excerpt
     tokens = tokenizer.tokenize(text) # genera los tokens sin el inicial y el final [cls] y [sep]
     inputs = tokenizer(text, return_tensors="pt")
     out = model(**inputs)
