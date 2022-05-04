@@ -13,6 +13,7 @@ from somef.cli import cli_get_data
 from flask import Flask, request, current_app, abort
 from flask_restplus import Api, Resource, fields
 from flask_swagger_ui import get_swaggerui_blueprint
+from predict import entities, makeRelations, added_info
 
 flask_restplus.__version__
 
@@ -72,11 +73,20 @@ Entity_Body = api.model('Entity_Body', {
     'end': fields.Integer
 })
 
+Relation_Body = api.model('Relation_Body',{
+    'id': fields.Integer,
+    'subject': fields.String,
+    'predicate': fields.String,
+    'object': fields.String
+})
+
 Ner_Body = api.model('Ner_Body', {
     'technique': fields.String,
     'version': fields.String,
-    'entities': fields.List(fields.Nested(Entity_Body))
+    'entities': fields.List(fields.Nested(Entity_Body)),
+    'relations': fields.List(fields.Nested(Relation_Body))
 })
+
 
 Ner_Section_Body = api.model('Ner_Section_Body', {
     'originalHeader': fields.String,
@@ -126,43 +136,50 @@ def cli_get_results(repo_data):
                         results[i] = current_list
     return results
 
-def predict(excerpt):
-    '''
-    TODO: implementar llamada al modelo con el texto
-    Lo que hay actualmente es placeholder
-    '''
-    return {
+def predict_results(excerpt,repo_name):
+    res = {
             'technique': 'NER4Soft',
             'version': '1.4.5',
             'entities': [
                 {
-                    'id': 0,
-                    'name': 'string',
-                    'type': 'string',
-                    'start': 0,
-                    'end': 0
-                },
-                {
-                    'id': 1,
-                    'name': 'string',
-                    'type': 'string',
-                    'start': 0,
-                    'end': 0
+                    'id':0,
+                    'name':repo_name,
+                    'type':None,
+                    'start': -1,
+                    'end':-1
                 }
-            ]
+                ]
     }
+    
+    _entities = entities(excerpt)
+    for i,entity in enumerate(_entities):
+        res['entities'].append(
+            {
+                'id':i+1,
+                'name': entity['name'],
+                'type': entity['type'],
+                'start': entity['start'],
+                'end': entity['end']
+            }
+        )
+    relationships = makeRelations(repo_name,_entities)
+    res['relationships'] = relationships['relationships']
+
+    return res
 
 def ner_get_results(somef_data):
     results = somef_data
     for k in results.keys():
         if k != 'name':
             for i in range(len(results[k])):
-                ner_data = predict(results[k][i]['excerpt'])
+                ner_data = predict_results(results[k][i]['excerpt'], results['name'])
                 results[k][i]['ner'] = {
                     'technique': ner_data['technique'],
                     'version': ner_data['version'],
-                    'entities': ner_data['entities']
+                    'entities': ner_data['entities'],
+                    'relationships': ner_data['relationships']
                 }
+    results['relation_extraction'] = added_info
     return results
   
 
