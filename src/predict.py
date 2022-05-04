@@ -1,10 +1,10 @@
-from transformers import AutoTokenizer, AutoModelForSequenceClassification
-from somenlp.NER.models.multi_bert import BERTMultiTaskOpt2
+from transformers import AutoTokenizer
+from somenlp.somenlp.NER.models.multi_bert import BERTMultiTaskOpt2
 import json
 import torch
 
 # Setup the path of the model and the tokenizer
-MODEL_PATH = "tfg/ner4soft/src/model/pytorch_model.bin"
+MODEL_PATH = "model/"
 TOKENIZER_PATH = "allenai/scibert_scivocab_cased"
 
 # Load of model and tokenizer
@@ -13,7 +13,7 @@ model = BERTMultiTaskOpt2.from_pretrained(MODEL_PATH)
 
 def load_encoding():
     # Opening JSON file
-    f = open('tfg/ner4soft/src/model/encoding.json')
+    f = open('model/encoding.json')
     # returns JSON object as
     # a dictionary
     data = json.load(f)
@@ -24,7 +24,7 @@ def load_encoding():
     return labels_map
 
 
-def predict(excerpt):
+def entities(excerpt):
     text = excerpt
     tokens = tokenizer.tokenize(text) # genera los tokens sin el inicial y el final [cls] y [sep]
     inputs = tokenizer(text, return_tensors="pt")
@@ -38,7 +38,6 @@ def predict(excerpt):
 
     preds = []
     print(text)
-    print(tokens)
     for i, ls in enumerate(lis):
         print(f"\nlabels_map {labels_map[i][0]}\n")
         name = ''
@@ -84,5 +83,67 @@ def predict(excerpt):
     preds.sort(key=lambda x: x['start'])
     return preds
 
-p = predict("Data collection: CrystalClear (Rigaku, 2005 ▶); cell refinement: CrystalClear; data reduction: CrystalClear; program(s) used to solve structure: SHELXS97 (Sheldrick, 2008 ▶); program(s) used to refine structure: SHELXL97 (Sheldrick, 2008 ▶); molecular graphics: ORTEP-3 for Windows (Farrugia, 1997 ▶) and PLATON (Spek, 2009 ▶); software used to prepare material for publication: SHELXL97.")
-print(p)
+added_info = {"technique":"relation_extraction", "version":"1.0.0"}
+
+def newInfo(entities,relationships):
+    global added_info
+    relations = relationships["relationships"]
+    for relation in relations:
+        # print(relation["predicate"])
+        if  not("softwareRequirements" in added_info) and relation["predicate"] == "softwareRequirements":
+                added_info["softwareRequirements"] = []
+        elif  not("hardwareRequirements" in added_info) and relation["predicate"] == "hardwareRequirements": 
+                added_info["hardwareRequirements"] = []
+        elif  not("supportedLanguages" in added_info) and relation["predicate"] == "supportedLanguages":
+                added_info["supportedLanguages"] = []
+        elif  not("supportedOS" in added_info) and relation["predicate"] == "supportedOS":
+                added_info["supportedOS"] = []        
+    
+    
+    for entity in entities:
+        for relation in relations:
+            if relation["predicate"] == "softwareRequirements" and entity["id"] == relation["object"] and not {"name":entity["name"]} in added_info["softwareRequirements"]:
+                added_info["softwareRequirements"].append({"name":entity["name"]})
+            elif relation["predicate"] == "hardwareRequirements" and entity["id"] == relation["object"] and not {"name":entity["name"]} in added_info["hardwareRequirements"]:
+                added_info["hardwareRequirements"].append({"name":entity["name"]})
+            elif relation["predicate"] == "supportedLanguages" and entity["id"] == relation["object"] and not {"name":entity["name"]} in added_info["supportedLanguages"]:
+                added_info["supportedLanguages"].append({"name":entity["name"]})
+            elif relation["predicate"] == "supportedOS" and entity["id"] == relation["object"] and not {"name":entity["name"]} in added_info["supportedLanguages"]:
+                added_info["supportedOS"].append({"name":entity["name"]})    
+    
+    
+
+
+
+def makeRelations(name,nerEntities):
+    relationship_dict = {"relationships":[]}
+    #Hacer bucle que acceda a las secciones
+    idRel = 1
+    
+    for entity in nerEntities:
+        if entity["type"] == "ProgrammingLanguage":
+            relationship_dict["relationships"].append({ 
+                "id": idRel,
+                "subject": name,
+                "predicate": "supportedLanguages",
+                "object": entity["id"] 
+            })
+            idRel+=1
+        elif entity["type"] == "Hardware":
+            relationship_dict["relationships"].append({ 
+                "id": idRel,
+                "subject": name,
+                "predicate": "hardwareRequirements",
+                "object": entity["id"] 
+            })
+            idRel+=1
+        elif entity["type"] == "SoftwareDependency":
+                relationship_dict["relationships"].append({
+                "id": idRel,
+                "subject": name,
+                "predicate": "softwareRequirements",
+                "object": entity["id"] 
+            })
+                idRel+=1
+    newInfo(nerEntities,relationship_dict)               
+    return relationship_dict
