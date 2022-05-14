@@ -3,6 +3,7 @@ actionlib==1.13.2
 aniso8601==9.0.1
 articlenizer==0.1
 attrs==21.4.0
+autopep8==1.6.0
 beautifulsoup4==4.10.0
 bondpy==1.8.6
 bs4==0.0.1
@@ -60,6 +61,8 @@ protobuf==3.20.1
 py==1.11.0
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
+pycodestyle==2.8.0
+pyocclient==0.6
 pyparsing==3.0.7
 pyrsistent==0.18.1
 pytest==7.1.2
@@ -114,6 +117,7 @@ tf2-py==0.7.5
 tf2-ros==0.7.5
 threadpoolctl==3.1.0
 tokenizers==0.10.3
+toml==0.10.2
 tomli==2.0.1
 topic-tools==1.15.14
 torch==1.11.0
