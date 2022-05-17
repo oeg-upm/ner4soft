@@ -74,7 +74,7 @@ Entity_Body = api.model('Entity_Body', {
 })
 
 Relation_Body = api.model('Relation_Body',{
-    'id': fields.Integer,
+    'id': fields.String,
     'subject': fields.String,
     'predicate': fields.String,
     'object': fields.String
@@ -144,7 +144,7 @@ def predict_results(excerpt,repo_name):
                 {
                     'id':0,
                     'name':repo_name,
-                    'type':None,
+                    'type':"SoftwareDependency",
                     'start': -1,
                     'end':-1
                 }
@@ -162,7 +162,8 @@ def predict_results(excerpt,repo_name):
                 'end': entity['end']
             }
         )
-    relationships = makeRelations(repo_name,_entities)
+    print(_entities)
+    relationships = makeRelations(res['entities'])
     res['relationships'] = relationships['relationships']
 
     return res
